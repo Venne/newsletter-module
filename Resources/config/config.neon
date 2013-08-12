@@ -1,0 +1,23 @@
+services:
+
+	newsletter.newsletterRepository:
+		class: NewsletterModule\Repositories\NewsletterRepository
+		factory: @entityManager::getRepository('NewsletterModule\Entities\NewsletterEntity')
+		tags: [proxy: DoctrineModule\Repositories\BaseRepository]
+
+	newsletter.newsletterFormFactory:
+		class: NewsletterModule\Forms\NewsletterFormFactory
+		setup:
+			- injectFactory(@cms.admin.ajaxFormFactory)
+
+factories:
+
+	cms.admin.newsletterPresenter:
+		class: NewsletterModule\Presenters\NewsletterPresenter
+		tags: [presenter, administration: [
+			link: 'Cms:Admin:Newsletter:'
+			category: 'Other'
+			name: 'Newsletter'
+			description: 'Send newsletter to website groups'
+			priority: -100
+		]]
