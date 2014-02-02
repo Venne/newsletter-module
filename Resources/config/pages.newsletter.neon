@@ -1,0 +1,105 @@
+services:
+	newsletter.pages.newsletterPage:
+		class: CmsModule\Content\ContentType('NewsletterModule\Pages\Newsletter\PageEntity')
+		setup:
+			- addSection('Message', @newsletter.pages.newsletter.messageControlFactory)
+			- addSection('History', @newsletter.pages.newsletter.messageTableControlFactory)
+			- addSection('Newsletters', @newsletter.pages.newsletter.newsletterTableControlFactory)
+			- addSection('Conditions', @newsletter.pages.newsletter.conditionsFormFactory)
+			- addSection('Users', @newsletter.pages.newsletter.userTableControlFactory)
+			- addSection('Settings', @blog.pageFormFactory)
+		tags: [contentType: 'newsletter']
+
+
+	newsletter.pages.newsletter.routeRepository:
+		class: NewsletterModule\Pages\Newsletter\RouteRepository
+		factory: @entityManager::getRepository('NewsletterModule\Pages\Newsletter\RouteEntity')
+		tags: [proxy: DoctrineModule\Repositories\BaseRepository]
+
+	newsletter.pages.newsletter.pageRepository:
+		class: NewsletterModule\Pages\Newsletter\PageRepository
+		factory: @entityManager::getRepository('NewsletterModule\Pages\Newsletter\PageEntity')
+		tags: [proxy: DoctrineModule\Repositories\BaseRepository]
+
+	newsletter.pages.newsletter.newsletterRepository:
+		class: NewsletterModule\Pages\Newsletter\NewsletterRepository
+		factory: @entityManager::getRepository('NewsletterModule\Pages\Newsletter\NewsletterEntity')
+		tags: [proxy: DoctrineModule\Repositories\BaseRepository]
+
+	newsletter.pages.newsletter.messageRepository:
+		class: NewsletterModule\Pages\Newsletter\MessageRepository
+		factory: @entityManager::getRepository('NewsletterModule\Pages\Newsletter\MessageEntity')
+		tags: [proxy: DoctrineModule\Repositories\BaseRepository]
+
+	newsletter.pages.newsletter.newsletterFormFactory:
+		class: NewsletterModule\Pages\Newsletter\NewsletterFormFactory
+		setup:
+			- injectFactory(@cms.admin.basicFormFactory)
+
+	newsletter.pages.newsletter.userRepository:
+		class: NewsletterModule\Pages\Newsletter\UserRepository
+		factory: @entityManager::getRepository('NewsletterModule\Pages\Newsletter\UserEntity')
+		tags: [proxy: DoctrineModule\Repositories\BaseRepository]
+
+	newsletter.pages.newsletter.element.newsletterFormFactory:
+		class: NewsletterModule\Pages\Newsletter\NewsletterElement\NewsletterFormFactory
+		setup:
+			- injectFactory(@cms.admin.basicFormFactory)
+
+	newsletter.pages.newsletter.messageFormFactory:
+		class: NewsletterModule\Pages\Newsletter\MessageFormFactory
+		setup:
+			- injectFactory(@cms.admin.basicFormFactory)
+
+	newsletter.pages.newsletter.userFormFactory:
+		class: NewsletterModule\Pages\Newsletter\UserFormFactory
+		setup:
+			- injectFactory(@cms.admin.ajaxFormFactory)
+
+	newsletter.pages.newsletter.conditionsFormFactory:
+		class: NewsletterModule\Pages\Newsletter\ConditionsFormFactory
+		setup:
+			- injectFactory(@cms.admin.basicFormFactory)
+
+	newsletter.pages.newsletter.importFormFactory:
+		class: NewsletterModule\Pages\Newsletter\ImportFormFactory
+		setup:
+			- injectFactory(@cms.admin.basicFormFactory)
+
+	newsletter.pages.newsletter.newsletterManager: NewsletterModule\Pages\Newsletter\NewsletterManager
+
+
+factories:
+	newsletter.pages.newsletter.newsletterTableControl:
+		class: NewsletterModule\Pages\Newsletter\NewsletterTableControl
+		tags: [component]
+
+	newsletter.pages.newsletter.routePresenter:
+		class: NewsletterModule\Pages\Newsletter\RoutePresenter
+		tags: [presenter]
+
+	newsletter.pages.newsletter.newsletterPresenter:
+		class: NewsletterModule\Pages\Newsletter\NewsletterPresenter
+		tags: [presenter]
+
+	newsletter.pages.newsletter.conditionsPresenter:
+		class: NewsletterModule\Pages\Newsletter\ConditionsPresenter
+		tags: [presenter]
+
+	newsletter.pages.newsletter.newsletterElement:
+		class: NewsletterModule\Pages\Newsletter\NewsletterElement\NewsletterElement
+		setup:
+			- inject
+		tags: [element: newsletter]
+
+	newsletter.pages.newsletter.userTableControl:
+		class: NewsletterModule\Pages\Newsletter\UserTableControl
+		tags: [component]
+
+	newsletter.pages.newsletter.messageControl:
+		class: NewsletterModule\Pages\Newsletter\MessageControl
+		tags: [component]
+
+	newsletter.pages.newsletter.messageTableControl:
+		class: NewsletterModule\Pages\Newsletter\MessageTableControl
+		tags: [component]

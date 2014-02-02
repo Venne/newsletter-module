@@ -1,0 +1,7 @@
+{define #page-content}
+
+	{control pagination}
+	{control itemList $control->getItemsBuilder()->orderBy('r.released', 'DESC')->getQuery()->getResult(), config => [variant => 'places']}
+	{control pagination}
+
+{/define}

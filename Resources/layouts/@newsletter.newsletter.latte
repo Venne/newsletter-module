@@ -1,0 +1,70 @@
+{extends email.latte}
+
+{block #click}
+	<span class="small">Nezobrazuje se Vám tento email správně? Klikněte <a href="{plink //Route route => $presenter->extendedRoute}">sem</a>.</span>
+{/block}
+
+{block #footer}
+		Tento e-mail jsme Vám zaslali, protože jste odběratelem informačního newsletteru NavštivteVranovsko.cz. Zasílání newsletteru se řídí těmito <a n:href="//Route route => $presenter->extendedPage->conditions">Podmínkami služby</a>.
+	{if $messageUser}
+		Odběr newsletteru můžete zrušit kliknutím na následující <a n:href="//Route route => $presenter->extendedPage->page->mainRoute, do => logout, key => $messageUser->key">odkaz</a>.
+	{/if}
+{/block}
+
+{block #content}
+
+{foreach $presenter->extendedRoute->boxes as $box}
+	<tr style="background:white;">
+		<td style="width:200px;padding: 20px;border-width:1px 0 1px 1px;border-color:#ddd;border-style:solid">
+			{if $box->photo}
+				<img width="629" height="253" src="{$server}{img $box->photo->getFileUrl(TRUE), size => '629x253', format => 8}" style="max-width:100%">
+			{/if}
+		</td>
+		<td style="vertical-align:top;border-width:1px 1px 1px 0;border-style:solid;border-color:#ddd">
+			<h2 style="text-transform: uppercase;color: #4ec3df">{$box->name}</h2>
+			<p>{$box->text}</p>
+		</td>
+	</tr>
+
+	<tr>
+		<td colspan="2">&nbsp;</td>
+	</tr>
+{/foreach}
+
+
+{foreach $presenter->extendedRoute->events as $event}
+	<tr style="background:white;">
+		<td style="width:200px;padding: 20px;border-width:1px 0 1px 1px;border-color:#ddd;border-style:solid">
+			<img n:if="$event->route->photo" width="629" height="253" src="{$server}{img $event->route->photo->getFileUrl(true), size => '629x253', format => 8}" style="max-width:100%">
+		</td>
+		<td style="vertical-align:top;border-width:1px 1px 1px 0;border-style:solid;border-color:#ddd">
+			<h2 style="text-transform: uppercase;color: #4ec3df">{$event->name}</h2>
+			<p>{$event->route->notation}</p>
+			<a href="http://www.navstivtevranovsko.cz/cs/{$event->route->url}" style="background: #4ec3df;	color: white;	padding: 1em;	clear:both;float:right;">Více zde &rarr;</a>
+		</td>
+	</tr>
+
+	<tr>
+		<td colspan="2">&nbsp;</td>
+	</tr>
+{/foreach}
+
+
+{foreach $presenter->extendedRoute->blogs as $event}
+	<tr style="background:white;">
+		<td style="width:200px;padding: 20px;border-width:1px 0 1px 1px;border-color:#ddd;border-style:solid">
+			<img n:if="$event->route->photo" width="629" height="253" src="{$server}{img $event->route->photo->getFileUrl(true), size=>'629x253', format => 8}" style="max-width:100%">
+		</td>
+		<td style="vertical-align:top;border-width:1px 1px 1px 0;border-style:solid;border-color:#ddd">
+			<h2 style="text-transform: uppercase;color: #4ec3df">{$event->name}</h2>
+			<p>{$event->route->notation}</p>
+			<a href="http://www.navstivtevranovsko.cz/cs/{$event->route->url}" style="background: #4ec3df;	color: white;	padding: 1em;	clear:both;float:right;">Více zde &rarr;</a>
+		</td>
+	</tr>
+
+	<tr>
+		<td colspan="2">&nbsp;</td>
+	</tr>
+{/foreach}
+
+{control item $presenter->route, config => [ variant => '@newsletter.newsletter' ]}
